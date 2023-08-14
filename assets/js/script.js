@@ -200,23 +200,45 @@ form.addEventListener("submit", async (event) => {
 
 document.addEventListener("DOMContentLoaded", function () {
   const listItems = document.querySelectorAll(".project-item");
+  let enlargedImageContainer;
 
   listItems.forEach(listItem => {
-    const enlargedImageContainer = document.createElement("div");
-    enlargedImageContainer.className = "enlarged-image";
-
-    const originalImage = listItem.querySelector("img").cloneNode();
-    enlargedImageContainer.appendChild(originalImage);
-    document.body.appendChild(enlargedImageContainer);
-
     listItem.addEventListener("click", function (event) {
       event.preventDefault();
+
+      const originalImage = listItem.querySelector("img");
+      
+      if (!enlargedImageContainer) {
+        enlargedImageContainer = document.createElement("div");
+        enlargedImageContainer.className = "enlarged-image";
+
+        const clonedImage = originalImage.cloneNode();
+        enlargedImageContainer.appendChild(clonedImage);
+        document.body.appendChild(enlargedImageContainer);
+
+        enlargedImageContainer.addEventListener("click", function () {
+          enlargedImageContainer.style.display = "none";
+        });
+      } else {
+        const existingImage = enlargedImageContainer.querySelector("img");
+        existingImage.src = originalImage.src;
+      }
+
       enlargedImageContainer.style.display = "flex";
     });
+  });
 
-    enlargedImageContainer.addEventListener("click", function () {
+  window.addEventListener("resize", function () {
+    if (enlargedImageContainer) {
       enlargedImageContainer.style.display = "none";
-    });
+    }
+  });
+
+  // Add navigation event listener to handle clearing the container on page change
+  window.addEventListener("beforeunload", function () {
+    if (enlargedImageContainer) {
+      enlargedImageContainer.remove();
+    }
   });
 });
 
