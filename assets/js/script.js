@@ -157,3 +157,92 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+//download cv
+const downloadButton = document.getElementById('downloadButton');
+
+downloadButton.addEventListener('click', function() {
+  const pdfUrl = 'https://1drv.ms/b/s!Aodz9PwDjJ-fhkBeckRjZN75O1KA?e=ebrbvP';
+
+  // Create a download link and simulate a click event to trigger the download
+  const downloadLink = document.createElement('a');
+  downloadLink.href = pdfUrl;
+  downloadLink.target = '_blank'; // Open in a new tab/window
+  downloadLink.click();
+});
+
+//send message
+const submitButton = document.querySelector(".form-btn");
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbwszMjHIuuGcNrFbKyfGMBjK6wToRpt47qlFrU0z0-rfJ7h_Bi1_PqUx_t0cSi8ZTXmQw/exec", {
+            method: "POST",
+            body: formData
+        });
+
+        if (response.ok) {
+            // Form submitted successfully
+            console.log("Form submitted successfully");
+            form.reset();
+        } else {
+            console.error("Error submitting form");
+        }
+    } catch (error) {
+        console.error("An error occurred while submitting the form", error);
+    } 
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const listItems = document.querySelectorAll(".project-item");
+  let enlargedImageContainer;
+
+  listItems.forEach(listItem => {
+    listItem.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const originalImage = listItem.querySelector("img");
+      
+      if (!enlargedImageContainer) {
+        enlargedImageContainer = document.createElement("div");
+        enlargedImageContainer.className = "enlarged-image";
+
+        const clonedImage = originalImage.cloneNode();
+        enlargedImageContainer.appendChild(clonedImage);
+        document.body.appendChild(enlargedImageContainer);
+
+        enlargedImageContainer.addEventListener("click", function () {
+          enlargedImageContainer.style.display = "none";
+        });
+      } else {
+        const existingImage = enlargedImageContainer.querySelector("img");
+        existingImage.src = originalImage.src;
+      }
+
+      enlargedImageContainer.style.display = "flex";
+    });
+  });
+
+  window.addEventListener("resize", function () {
+    if (enlargedImageContainer) {
+      enlargedImageContainer.style.display = "none";
+    }
+  });
+
+  // Add navigation event listener to handle clearing the container on page change
+  window.addEventListener("beforeunload", function () {
+    if (enlargedImageContainer) {
+      enlargedImageContainer.remove();
+    }
+  });
+});
+
+
+
+
+

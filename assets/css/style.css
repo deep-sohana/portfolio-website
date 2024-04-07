@@ -767,6 +767,15 @@ main {
 .article-title { margin-bottom: 30px; }
 
 
+.align-with-heading {
+  margin-left: 15px;
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /**
  * education and experience 
  */
@@ -1337,7 +1346,34 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .sidebar-info { gap: 25px; }
 
-  .avatar-box { border-radius: 30px; }
+  /* .avatar-box { border-radius: 30px; position: relative;} */
+
+  .avatar-box {
+    position: relative;
+    border-radius: 30px; /* Make the avatar image circular */
+    overflow: hidden; /* Ensure the image stays within the curved boundaries */
+  }
+  
+  .avatar-box img,
+  .hover-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  .hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    opacity: 0; /* Initially hide the hover image */
+    transition: opacity 0.3s ease; /* Add a smooth transition effect */
+  }
+
+  .avatar-box:hover .hover-image {
+    opacity: 1; /* Show the hover image on hover */
+  }
 
   .avatar-box img { width: 120px; }
 
@@ -1366,7 +1402,6 @@ textarea.form-input::-webkit-resizer { display: none; }
     max-width: calc(100% - 64px);
     width: calc(100% - 64px);
   }
-
 
 
   /**
@@ -1511,6 +1546,28 @@ textarea.form-input::-webkit-resizer { display: none; }
   .blog-posts-list { gap: 30px; }
 
   .blog-content { padding: 25px; }
+
+  .enlarged-image {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  /* Enlarged image */
+  .enlarged-image img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+  
+
 
 
 
